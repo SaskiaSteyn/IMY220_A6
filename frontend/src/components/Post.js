@@ -1,4 +1,5 @@
 import React from 'react'
+import AllComments from './Comments'
 import DeletePost from './DeletePost'
 import EditPost from './EditPost'
 
@@ -29,7 +30,9 @@ class Post extends React.Component{
 
     async updatePost(name, content){
         try {
-            const response = await fetch('http://localhost:3000/post', {
+            //await: waits for the fetch to complete
+            const response = await fetch('http://localhost:3000/post', { //url that the request is being sent to (backend)
+                //look at the server.js to see the path and method
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -46,8 +49,11 @@ class Post extends React.Component{
             throw new Error(`Response status: ${response.status}`);
             }
 
+            //gets the response back
+
             const json = await response.json();
 
+            //update the state of the react component
             this.setState({
                 name: name,
                 content: content
@@ -98,9 +104,11 @@ class Post extends React.Component{
                 <p className="author">{this.props.author}</p>
                 <hr/>
                 <p>{this.state.content}</p>
+                {/* Line 55: this update the state of the content and tell React to rerender the component */}
                 <button onClick={this.showEdit}>Edit post</button>
                 {this.state.hidden && <EditPost name={this.props.name} content={this.props.content} updateValue={this.updateValue}/>}
                 <DeletePost deleteValue = {this.deleteValue}/>
+                <AllComments comments={this.props.comments}/>
             </div>
         );
     }
@@ -160,6 +168,7 @@ class AllPosts extends React.Component{
                                     author = {post.author.name}
                                     content = {post.content}
                                     fetchPosts = {this.fetchPosts}
+                                    comments={post.comments}
                                 />
                             )
                         })}

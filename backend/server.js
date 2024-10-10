@@ -11,6 +11,7 @@ const url = "mongodb://db:27017";
 app.use(express.static("frontend/public"));
 
 app.use(express.json());
+//request.body: need the above to allow us to have it present. Express cannot parse the body of the request without this line
 
 app.post('/posts', async function (req, res) {
   let results = await getAllPosts();
@@ -69,6 +70,7 @@ async function updatePost(requestBody){
 
     console.log(requestBody.id);
     const post = await col.updateOne({ 'id': requestBody.id }, { $set: { 'name' : requestBody.name, 'content' : requestBody.content} });
+    //above ^: Search based on the id and then update the name and content of the post
     return post;
 
   } finally {
