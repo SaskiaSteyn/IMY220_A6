@@ -1,0 +1,13 @@
+Start the docker compose image:
+docker compose up
+
+Insert data into the mongoDB instance: 
+docker cp posts.json assignment-6-db-1:/data/posts.json
+
+Makes the data accessibile:
+docker exec -it assignment-6-db-1 mongoimport --db assignment6 --collection posts --file /data/posts.json --jsonArray
+
+assignment-6-db-1: be wary that this has to be the full name of the MongoDB image in the docker image
+
+rebuild the image: 
+docker compose up --build
